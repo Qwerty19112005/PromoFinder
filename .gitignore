@@ -19,3 +19,6 @@ research/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Packaged outputs for the Drive folder (contain script text)
+deliverables/

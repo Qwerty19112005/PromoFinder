@@ -90,7 +90,7 @@ On Groq's paid Developer plan the same models allow 1,000 requests and 250,000 t
 | Rank | model | All pairs of the top 8, each asked in both orders; a pick that survives the swap wins, an inconsistent pair is a tie. The share of inconsistent pairs is reported as position bias. |
 | Baseline | code | Same candidate rules, scored by emotion tags, punctuation and keywords only. |
 
-## How we know it is good
+## How I know it is good
 
 Automatic, every run (in `report.md`): rule pass rate, invalid moment references, the judge's check rates, pairwise consistency, overlap with the rules-only baseline, per-promo flags.
 

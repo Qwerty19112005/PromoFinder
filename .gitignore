@@ -1,0 +1,21 @@
+# Kuku's input pack is confidential ("please don't publish or share it"). Never commit it.
+source/
+*.zip
+
+# Outputs quote the script's dialogue, so they go to a link-only Drive folder, not a public repo.
+runs/
+gold/*.csv
+!gold/gold_template.csv
+cache/
+
+# Personal working notes (roll number, CV review, pack quirks): local only
+CLAUDE.md
+research/
+
+# Secrets and local environment
+.env
+.streamlit/secrets.toml
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/

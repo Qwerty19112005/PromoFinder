@@ -1,0 +1,9 @@
+# Runtime (also what Streamlit Community Cloud installs). Pinned to the versions the tests ran on.
+openai==3.46.0          # one OpenAI-compatible client for Groq, Gemini, OpenRouter, Ollama or any API Kuku provides
+streamlit==1.67.0       # the deployed prototype
+pandas==3.1.1           # tables, CSV export
+pydantic==2.14.3        # validates every JSON answer the model gives
+python-dotenv==1.2.4    # reads the API key from .env locally
+
+# Development only
+pytest==9.2.0

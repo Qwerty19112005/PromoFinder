@@ -1,11 +1,5 @@
-"""Pass 2: a "cold viewer" checks each shortlisted clip using the clip's text alone.
-
-The judge never sees the rest of the show, so "makes sense on its own" is tested directly: it must
-state the premise in one sentence from the clip, say what the first 3 seconds show and what question
-is left open at the cut. Then it answers yes/no checks. Yes/no checklists are used instead of a 1-10
-score because they give more consistent LLM judgements (CheckEval, arXiv 2403.18771); the code turns
-the answers into a score with fixed, visible weights.
-"""
+"""Pass 2: a cold viewer judges each shortlisted clip from its text alone with yes/no checks
+(CheckEval, arXiv 2403.18771); code turns the answers into a score with fixed weights."""
 from __future__ import annotations
 
 from pydantic import BaseModel

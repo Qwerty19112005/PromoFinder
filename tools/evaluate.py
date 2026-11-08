@@ -1,13 +1,5 @@
-"""Compare the tool's promos with hand-made gold picks.
-
-Usage:  .venv\\Scripts\\python tools/evaluate.py <run folder> [gold csv] [--include-example]
-
-A gold promo counts as found when one of the tool's top-k promos covers at least half of its screen time.
-Reports recall in the top 10 and top 20 for the full pipeline and the rules-only baseline, the start and
-end error of each match, and a chance level: the same recall for random clips that obey the same rules
-(average of 300 draws). Writes evaluation.md into the run folder.
-Rows whose notes start with "EXAMPLE FROM CLAUDE" are left out unless --include-example is given.
-"""
+"""Recall of hand-made promos in the tool's top 10 and 20, against the baseline and random legal clips.
+Usage: tools/evaluate.py <run folder> [gold csv] [--include-example]"""
 import csv
 import glob
 import json

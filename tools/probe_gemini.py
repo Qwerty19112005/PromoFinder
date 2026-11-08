@@ -1,10 +1,4 @@
-"""Probe a Gemini key: which models it sees, and which way of passing it the OpenAI-compatible endpoint accepts.
-
-Usage:  .venv\\Scripts\\python tools/probe_gemini.py
-Reads GEMINI_API_KEY and GEMINI_BASE_URL from .env. Never prints the key.
-New AI Studio keys start with "AQ." and have been reported (June 2026) to fail on the OpenAI-compatible
-endpoint with a Bearer header, while working on the native endpoint with x-goog-api-key.
-"""
+"""Probe a Gemini key: which models it sees, and which way of passing the key the OpenAI endpoint accepts."""
 import json
 import os
 import sys

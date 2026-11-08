@@ -1,11 +1,5 @@
-"""Final ranking by pairwise comparison (which promo to post first).
-
-Method from Pairwise Ranking Prompting (Qin et al., 2023, arXiv 2306.17563), all-pairs variant:
-every pair is asked twice with the order swapped; a pick that survives the swap is a win (1 point),
-an inconsistent pair is a tie (half a point each). The share of inconsistent pairs is reported as a
-direct measure of the model's position bias. All-pairs costs n(n-1) calls, so it runs on a short list
-(8 by default = 56 calls) chosen by the judge's score with near-duplicates and same-episode repeats removed.
-"""
+"""Final ranking: every pair of the top clips is asked in both orders; a consistent pick wins and a flip
+is a tie (Pairwise Ranking Prompting, arXiv 2306.17563)."""
 from __future__ import annotations
 
 import itertools

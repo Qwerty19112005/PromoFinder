@@ -1,14 +1,5 @@
-"""Check a hand-made promo list against the promo rules, and print each clip's script.
-
-Usage:  .venv\\Scripts\\python tools/check_gold.py [gold csv] [pack dir]
-Default csv: gold/gold_promos.csv. Columns: promo_id, segments, hook, cliffhanger, rating_1_to_5, notes.
-`segments` is one or more  E<ep> mm:ss.s-mm:ss.s  separated by ;  for example
-    E03 00:58.0-01:36.3; E03 02:13.2-02:20.5
-
-Checks: episode exists, times inside the episode, total length 20-60 s, the start and end do not
-cut through the middle of a spoken line, ids unique, rating 1-5. It also prints what is on screen in
-the first 3 s (is the hook really there?) and the full clip text (does it make sense on its own?).
-"""
+"""Check a hand-made promo list against the promo rules and print each clip's script.
+Usage: tools/check_gold.py [gold csv] [pack dir]; segments look like "E03 00:58.0-01:36.3; E03 02:13.2-02:20.5"."""
 import csv
 import glob
 import os

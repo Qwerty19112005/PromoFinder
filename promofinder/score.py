@@ -1,14 +1,5 @@
-"""Pass 1: a cheap model reads the whole show a few episodes at a time and scores the moments that matter.
-
-The model refers to moments only by their number; code maps numbers back to times, so it cannot invent a
-timestamp. Numbers that do not exist are dropped and counted (a quality signal).
-
-The highlight tags and their points follow the rules that ByteDance researchers distilled from
-professional short-drama ad editors (HIVE, arXiv 2507.02790, tables 6 and 5: female- and male-audience
-highlights plus general highlights), adapted to this genre. hook / cliff / context are this project's
-own 0-3 scales; cliff asks how open the next event is (suspense as uncertainty about what comes next,
-Wilmot and Keller, ACL 2020).
-"""
+"""Pass 1: a cheap model scores moments a few episodes at a time, referring to them by number only.
+Highlight tags and points follow the short-drama editor rules in HIVE (arXiv 2507.02790)."""
 from __future__ import annotations
 
 from typing import Literal

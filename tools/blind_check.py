@@ -1,22 +1,6 @@
-"""Blind viewer test: does a viewer rate the tool's promos above simpler alternatives?
-
-  .venv\\Scripts\\python tools/blind_check.py make  <run folder> [n_tool n_baseline n_random]   (default 12 6 6)
-      writes blind/sheet.md (the clips to read) and blind/sheet.csv; the answer key goes to blind/key.json
-  .venv\\Scripts\\python tools/blind_check.py rate  <run folder> <clip> <hook y/n> <ending y/n> <sense y/n> <overall 1-5> [comment]
-  .venv\\Scripts\\python tools/blind_check.py score <run folder>      reveals the sources and writes blind/result.md
-
-Why this design (decided 8 Nov): a hand-made "gold" list of promos is a noisy yardstick, because a show
-has many good promos and two people rarely pick the same ones. Rating clips instead asks the question
-the brief cares about (would a viewer stop, follow it, and want more?), and mixing three sources blind
-gives the ratings something to be compared against:
-  tool      the pipeline's top promos, in rank order
-  baseline  the rules-only baseline (word lists, no model) built with the same clip rules
-  random    random clips that obey the same rules (20-60 s, no cut inside a spoken line)
-The sheet shows only the script text with times from the clip's start: no episode, rank or source.
-For every clip the rater answers the brief's three tests (hook in the first 3 s, ends unresolved,
-makes sense to a stranger) and gives an overall 1-5. The score also compares the rater's three
-answers with the model judge's answers on the tool's clips, which is a direct check on the judge.
-"""
+"""Blind viewer test: the tool's promos, the rules baseline and random legal clips, sources hidden.
+Usage: tools/blind_check.py make <run> [n_tool n_base n_rand] | rate <run> <clip> <hook y/n> <ending y/n>
+<sense y/n> <overall 1-5> [comment] | score <run>"""
 import csv
 import json
 import os

@@ -1,9 +1,4 @@
-"""Check that the model settings in .env work, and print the provider's own rate limits.
-
-Usage:  .venv\\Scripts\\python tools/check_llm.py
-Prints the models the key can see, sends one tiny request to LLM_MODEL and JUDGE_MODEL,
-and shows the rate-limit headers the provider returns (more reliable than blog posts).
-"""
+"""Check the model settings in .env: list models, send one tiny request, print the rate-limit headers."""
 import os
 import sys
 import time

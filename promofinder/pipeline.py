@@ -1,12 +1,4 @@
-"""Run the whole promo finder on one show and write every output to runs/<timestamp>/.
-
-Stages (what is code and what is a model):
-  parse (code) -> name map (1 model call) -> pass 1 beat scoring (cheap model, a few episodes per call)
-  -> candidate clips (code, rules enforced) -> shortlist (code: score + near-duplicate removal)
-  -> cold-viewer judge (stronger model, one call per clip) -> pairwise ranking (model, both orders)
-  -> final list + report (code).
-A rules-only baseline (no model) is built from the same candidate generator for comparison.
-"""
+"""Run the whole pipeline on one show and write every output to runs/<timestamp>/."""
 from __future__ import annotations
 
 import csv
@@ -61,10 +53,8 @@ def pre_score(show: Show, c: C.Candidate, beats: dict) -> float:
 
 
 def make_shortlist(cands: list[C.Candidate], judge_n: int, early_eps: int = 10, early_slots: int = 8) -> list[C.Candidate]:
-    """Clips sent to the judge. The shortlist score is coarse (many clips tie near the top), so a pure
-    top-n by score can skip the opening episodes entirely (run 1 on 7 Nov judged nothing from episode 1).
-    New viewers start at episode 1, so the best clip of each of the first episodes is reserved a place
-    (up to early_slots), then the rest is filled by score. The judge and the ranking still decide the order."""
+    """Clips sent to the judge. Scores tie a lot near the top, so the best clip of each early episode gets
+    a place first (new viewers start at episode 1), then the rest is filled by score."""
     key = lambda c: c.scores["pre"]
     early = []
     for e in sorted({c.ep for c in cands if c.ep <= early_eps}):
@@ -240,7 +230,6 @@ def run(source, out_root: str = "runs", cache_dir: str = "cache", env: dict | No
         cands, shortlist, pool_ids = [], [], set()
         final = base_top
 
-    # ---------- outputs ----------
     promos = [promo_record(show, c, i + 1, verdicts.get(c.cid), beats, rank_info, pool_ids if use_llm else set())
               for i, c in enumerate(final)]
     base_recs = [promo_record(show, c, i + 1, None, {}, None, set()) for i, c in enumerate(base_top)]

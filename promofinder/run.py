@@ -1,13 +1,4 @@
-"""Command line:  python -m promofinder.run <pack folder or .zip> [options]
-
-Examples
-  python -m promofinder.run "path/to/show-script.zip"
-  python -m promofinder.run source/screenplays --rules-only
-  python -m promofinder.run new_show.zip --judge-n 24 --rank-n 6
-  python -m promofinder.run new_show.zip --quick          (episodes 1-10, a few minutes on a free tier)
-  python -m promofinder.run new_show.zip --episodes 5-20
-Models come from .env (see .env.example); swap a model by editing .env only.
-"""
+"""Command line: python -m promofinder.run <pack folder or .zip> [--quick] [--episodes 5-20] [--rules-only]"""
 from __future__ import annotations
 
 import argparse

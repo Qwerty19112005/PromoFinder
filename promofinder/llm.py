@@ -1,18 +1,5 @@
-"""One client for any OpenAI-compatible endpoint (Groq, Gemini, OpenRouter, OpenAI, Ollama, ...).
-
-What it adds on top of the openai package:
-- JSON replies checked against a pydantic model. It asks for a strict JSON schema first (Groq
-  constrains decoding to the schema for gpt-oss and Qwen); if the provider rejects that, it falls
-  back to plain JSON mode, then to JSON described in the prompt. One repair retry on a bad reply.
-- A disk cache keyed by a hash of the whole request, so a rerun costs nothing and gives the same
-  answer. Prompts put fixed instructions first and show text last, which also lets the provider's
-  own prefix cache work (Groq: cached tokens do not count toward rate limits).
-- Rate-limit handling: waits on 429 using retry-after (or Gemini's retryDelay in the error body),
-  paces requests using the x-ratelimit-remaining-tokens / reset headers so it rarely hits 429 at
-  all, and can also keep to a fixed requests-per-minute cap for providers that send no headers.
-  A daily quota that resets at a fixed time (Gemini's free tier) stops further calls at once.
-- A log of every request and reply (raw outputs for the submission) and token totals per model.
-"""
+"""One client for any OpenAI-compatible endpoint: validated JSON replies, a disk cache,
+rate-limit pacing, and a log of every request and reply."""
 from __future__ import annotations
 
 import copy
@@ -114,7 +101,6 @@ class LLM:
         self._tokens_limit = 0.0
         self._tokens_reset_at = 0.0
 
-    # ---------- public ----------
     def json(self, messages: list[dict], model: type[BaseModel], tag: str, max_tokens: int = 2000) -> BaseModel | None:
         schema = strict_schema(model)
         key = hashlib.sha256(json.dumps(
@@ -161,7 +147,6 @@ class LLM:
         self.usage.failures += 1
         return None
 
-    # ---------- internals ----------
     def _emit(self, msg: str):
         if callable(self.on_event):
             self.on_event(msg)

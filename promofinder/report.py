@@ -1,5 +1,4 @@
-"""Write report.md for a run: the ranked promos, why each is placed where it is, automatic quality
-checks, the rules-only baseline, and every promo's script."""
+"""Write report.md for a run: ranked promos, quality checks, the baseline and each promo's script."""
 from __future__ import annotations
 
 import os

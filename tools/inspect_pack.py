@@ -1,15 +1,4 @@
-"""Parse a microdrama screenplay pack and report what is in it.
-
-Every block in the pack looks like
-    **HEAD:**
-    Start: (mm:ss.ss) | End: (mm:ss.ss)
-    text...
-where HEAD is CAMERA, ACTION, SOUND FX, or a speaker with emotion tags such as "LADY MARGARET (Cruel, Savoring)".
-
-Usage:
-    python tools/inspect_pack.py <pack dir>              statistics and format checks
-    python tools/inspect_pack.py <pack dir> 3 12 41      also print the dialogue and action of those episodes
-"""
+"""Report what is in a screenplay pack. Usage: tools/inspect_pack.py <pack dir> [episode numbers to print]"""
 import collections
 import glob
 import os

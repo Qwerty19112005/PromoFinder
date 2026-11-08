@@ -1,7 +1,5 @@
-"""Add or replace one row in gold/gold_promos.csv (used while he dictates his picks).
-
-Usage:  .venv\\Scripts\\python tools/add_gold.py <id> "<segments>" "<hook>" "<cliffhanger>" "<rating or empty>" "<notes>"
-"""
+"""Add or replace one row in gold/gold_promos.csv.
+Usage: tools/add_gold.py <id> <segments> <hook> <cliffhanger> <rating or empty> <notes>"""
 import csv
 import os
 import sys

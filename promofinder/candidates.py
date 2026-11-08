@@ -1,16 +1,5 @@
-"""Build candidate promo clips from scored moments, using code only.
-
-A clip is one or more segments (episode, start, end) in play order. Every candidate obeys the
-brief's rules by construction, and `check` re-verifies them:
-- total length 20 to 60 s
-- the hook moment starts within the first 3 s
-- no segment boundary cuts through a spoken line
-Shapes:
-- single:    one stretch, hook -> ... -> cliffhanger moment
-- stitch:    the end of episode N run straight into the start of episode N+1, ending on a cliffhanger there
-- cold_open: a short striking moment from later in the episode first (a flash-forward), then the run-up
-             that leads towards it, cut before it happens
-"""
+"""Build candidate clips with code only: 20-60 s, hook in the first 3 s, no cut inside a spoken line.
+Shapes: single (one stretch), stitch (end of episode N into N+1), cold_open (a flash-forward first)."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

@@ -1,12 +1,4 @@
-"""Write an easy-to-read copy of every episode for labelling promos by hand.
-
-Usage:  .venv\\Scripts\\python tools/make_reader.py [pack dir] [out dir]
-Defaults: the pack in source/screenplays/..., output in source/readable/ (inside source/, so git ignores it).
-
-Each line is  [start-end] WHO (emotion): text  with times as mm:ss.s, the same form the gold file uses.
-CAMERA lines are dropped (they are about framing, not story); ACTION and SOUND FX are kept because
-visual hooks such as a slap often appear only there.
-"""
+"""Write an easy-to-read copy of every episode ([start-end] WHO (emotion): text) for picking promos by hand."""
 import glob
 import os
 import sys

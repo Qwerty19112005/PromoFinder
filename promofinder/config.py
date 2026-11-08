@@ -1,22 +1,5 @@
-"""Model settings, read from environment variables (or a .env file, or Streamlit secrets).
-
-Every stage can use its own provider and model, so a stronger model (for example Kuku's own API)
-can be plugged into one stage without touching code:
-
-    LLM_BASE_URL, LLM_API_KEY, LLM_MODEL       defaults for every stage
-    SCORE_*   pass 1 (beat scoring) and the name map; falls back to LLM_*
-    JUDGE_*   pass 2 (cold-viewer checklist);          falls back to LLM_*
-    RANK_*    pairwise ranking;                         falls back to JUDGE_*, then LLM_*
-    <STAGE>_REASONING_EFFORT   e.g. low; sent only when set (gpt-oss on Groq: low/medium/high;
-                               Gemini 3.8 Flash: low/medium/high, "minimal" is an error)
-    <STAGE>_TEMPERATURE        default 0.2; "none" sends no temperature (Gemini 3.6 and later
-                               ignore it and Google says future models will reject it)
-    <STAGE>_RPM                optional requests-per-minute cap, for providers that send no
-                               rate-limit headers (Gemini's free tier)
-
-`load_provider("GEMINI")` reads the same fields under any other prefix (GEMINI_BASE_URL, ...),
-which is how tools/agreement.py brings in a second judge from a different provider.
-"""
+"""Model settings from environment variables, .env or Streamlit secrets.
+LLM_* is the default for every stage; SCORE_*, JUDGE_* and RANK_* override one stage (see .env.example)."""
 from __future__ import annotations
 
 import os

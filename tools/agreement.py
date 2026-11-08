@@ -1,15 +1,5 @@
-"""Two-model agreement: judge the same shortlist with a second model and compare with the run's judge.
-
-Usage:  .venv\\Scripts\\python tools/agreement.py <run folder> [second model] [--provider PREFIX] [--limit N]
-  default second judge: the SCORE model (e.g. gpt-oss-20b on the same provider)
-  --provider GEMINI   take the second judge from GEMINI_BASE_URL / GEMINI_API_KEY / GEMINI_MODEL / ... in .env
-  --limit N           judge only the first N shortlisted clips (a cheap trial; replies are cached)
-
-Rebuilds the run's shortlist from the cache (no new calls for the name map or pass 1), judges it with the
-second model, and reports: agreement on each yes/no check with Cohen's kappa, Spearman correlation of
-judge scores, and the overlap of the two top-10 lists. Writes agreement_<model>.md into the run folder.
-If the second model's daily quota runs out part-way, it reports on the clips it did judge.
-"""
+"""Judge a run's shortlist with a second model and report agreement with the main judge.
+Usage: tools/agreement.py <run folder> [model] [--provider PREFIX] [--limit N]"""
 import argparse
 import json
 import os

@@ -1,9 +1,4 @@
-"""Normalise speaker labels per show (MARGARET / LADY MARGARET, or a 'MYSTERIOUS MAN' who is named later).
-
-One cheap model call per show sees every label with its line count, the episodes it appears in and its
-first line, plus the episode loglines, and maps each label to one character name. If no model is
-available, labels are kept as written (title case). The map is saved with the run so it can be checked.
-"""
+"""Map drifting speaker labels (MARGARET / LADY MARGARET) to one character name with a single model call."""
 from __future__ import annotations
 
 import collections

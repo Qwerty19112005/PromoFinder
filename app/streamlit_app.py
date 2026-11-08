@@ -1,12 +1,5 @@
-"""Promo finder web app.  Run locally:  .venv\\Scripts\\streamlit run app/streamlit_app.py
-
-Upload a show (a .zip of episode .txt files, or the .txt files themselves), choose models, and get ranked
-20-60 s promos with timestamps, hook, cliffhanger, why each works, and automatic quality flags.
-An editor then accepts or rejects each promo in the table, and downloads those decisions.
-No script is stored in this app; uploads are processed in a temporary folder.
-API keys come from Streamlit secrets or the sidebar, never from the code. A key kept in secrets is
-never put into a page field, so it cannot be revealed from the browser.
-"""
+"""PromoFinder web app: upload a show's scripts, get ranked promos, and accept or reject each one.
+API keys come from Streamlit secrets or the sidebar; a key in secrets is never put into a page field."""
 import io
 import json
 import os

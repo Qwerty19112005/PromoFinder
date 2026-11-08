@@ -1,15 +1,5 @@
-"""Parse a microdrama screenplay pack into episodes and numbered moments.
-
-A pack is a folder or a zip of text files, one per episode. Each timed block looks like
-    **HEAD:**
-    Start: (mm:ss.ss) | End: (mm:ss.ss)
-    text
-where HEAD is CAMERA, ACTION, SOUND FX, or a speaker with emotion tags, e.g. "LADY MARGARET (Cruel, Savoring)".
-
-A *moment* is every block except CAMERA (camera lines describe framing, cost two thirds of the
-tokens and carry little story). Moments are numbered per episode in time order, so a moment id
-like E12.M031 is stable and the language model can refer to it without ever writing a timestamp.
-"""
+"""Parse a screenplay pack (a folder or zip, one text file per episode) into numbered moments.
+Block format: **HEAD:** / Start: (mm:ss.ss) | End: (mm:ss.ss) / text. CAMERA blocks are dropped."""
 from __future__ import annotations
 
 import io
@@ -25,11 +15,9 @@ BLOCK = re.compile(
     r"(?P<body>.*?)(?=\n\s*\*\*|\n-{2,}\s*SCRIPT END|\n\s*SCENE\b|\Z)",
     re.S,
 )
-# Looser templates, tried only when BLOCK finds fewer blocks than the file has time lines, so the
-# pack's own format always takes the original path. They cover a new show written slightly differently:
-# (W = spaces or tabs only, so no part of a pattern can run on into the next line)
+# Looser templates, tried only when BLOCK misses time lines. W is spaces or tabs, so no match crosses a line.
 W = r"[ \t]*"
-SEP = W + r"(?:\||-|–|—|to|,)" + W
+SEP = W + r"(?:\||-|\u2013|\u2014|to|,)" + W
 ALT_BLOCK = re.compile(  # head line without bold, or "Start Time 00:01 - End 00:03" style time lines
     r"^" + W + r"(?:\*\*)?(?P<head>[^*\n]+?)" + W + r":?" + W + r"(?:\*\*)?" + W + r":?" + W + r"\n"
     + W + r"(?:[Ss]tart(?:" + W + r"[Tt]ime)?" + W + r"[:\-]?" + W + r")?\(?" + W + r"(?P<s>" + TIME + r")" + W + r"\)?" + SEP +

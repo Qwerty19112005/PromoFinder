@@ -1,10 +1,5 @@
-"""Rules-only scores for a moment, with no language model. Used for the baseline ranking that the
-model pipeline has to beat, and as a fallback when no API key is set.
-
-Signals: emotion tags written by the script writer, punctuation, a short list of high-stakes words,
-physical actions (a slap often exists only in ACTION text) and sound cues. The word lists are my
-judgement for this genre; they are deliberately small so the baseline stays simple.
-"""
+"""Rules-only moment scores (emotion tags, punctuation, keywords, actions, sounds), no model.
+Used for the baseline and as the fallback when no API key is set."""
 from __future__ import annotations
 
 import re
@@ -59,7 +54,7 @@ def cliff(m: Moment, is_episode_end: bool) -> float:
     if m.kind == "DIALOGUE":
         if t.endswith("?"):
             s += 1.0
-        if t.endswith("...") or t.endswith("--") or t.endswith("—"):
+        if t.endswith("...") or t.endswith("--") or t.endswith("\u2014"):
             s += 1.0
         s += 0.5 * min(2, _count(STAKES, t))
     if m.kind == "SOUND FX" and _count(CLIFF_SFX, m.text):

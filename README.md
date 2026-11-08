@@ -20,6 +20,61 @@ copy .env.example .env                              then put your API key in .en
 
 Any OpenAI-compatible endpoint works (Groq, Gemini, OpenRouter, OpenAI, a local Ollama). Set `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` in `.env` (or in the app's sidebar); override one stage with `SCORE_*`, `JUDGE_*` or `RANK_*` (for example a stronger in-house model for the judge only). Run on Groq (gpt-oss-20b and gpt-oss-120b) and on Gemini 3.8 Flash. The client adapts to the provider: strict JSON schema, then plain JSON mode, then the schema in the prompt; it drops parameters a provider rejects (`temperature`, `reasoning_effort`) and switches to `max_completion_tokens` for models that need it; it paces itself from rate-limit headers or a fixed requests-per-minute cap. See `.env.example`.
 
+## API keys and limits
+
+### Changing the key
+
+| Where it runs | Where the key lives | How to change it |
+|---|---|---|
+| Your machine | `.env` (never committed) | Edit the `LLM_API_KEY=` line. For one stage only, set `SCORE_API_KEY`, `JUDGE_API_KEY` or `RANK_API_KEY` (with that stage's `_BASE_URL` and `_MODEL` if it is a different provider). |
+| Streamlit Cloud | The app's secrets | share.streamlit.io, open the app's menu (three dots), Settings, Secrets. Edit `LLM_API_KEY = "..."`, Save. The app restarts with the new key in about a minute. |
+| Any visitor of the app | The sidebar | Paste your own key in the "API key" field. It is used for your session only, overrides the app's key, and is not stored. The app's own key is never shown on the page. |
+
+The secrets for the deployed app:
+
+```
+LLM_BASE_URL = "https://api.groq.com/openai/v1"
+LLM_API_KEY = "gsk_..."
+LLM_MODEL = "openai/gpt-oss-20b"
+JUDGE_MODEL = "openai/gpt-oss-120b"
+```
+
+New Groq key: console.groq.com/keys, Create API Key. Groq shows the key only once, so copy it straight into `.env` or the secrets, then delete the old key on the same page.
+
+### Limits of the app's key (Groq free plan)
+
+Groq's published free-plan limits, the same for both models (console.groq.com/docs/rate-limits, checked 8 Nov 2026):
+
+| Model | Requests a minute | Requests a day | Tokens a minute | Tokens a day |
+|---|---|---|---|---|
+| openai/gpt-oss-20b (pass 1) | 30 | 1,000 | 8,000 | 200,000 |
+| openai/gpt-oss-120b (name map, judge, ranking) | 30 | 1,000 | 8,000 | 200,000 |
+
+The limits belong to the Groq account (organization), not to the key, so a second key from the same account does not add quota.
+
+What one run uses (measured on the 50-episode pack; the quick demo is estimated from the per-call averages):
+
+| Run | gpt-oss-20b tokens | gpt-oss-120b tokens | Calls | Time on the free plan |
+|---|---|---|---|---|
+| Full show, 50 episodes | about 80,000 | about 106,000 | 106 | about 20 minutes |
+| Quick demo, episodes 1-10 | about 16,000 | about 30,000 | about 30 | a few minutes |
+
+So the app's key covers about one full show, or about six quick demos, per day. The tokens-a-minute limit is what makes a full run slow; the requests limits are never reached.
+
+When a limit is hit:
+- Per minute: the client waits by itself (the progress log says "pacing" or "rate limited, waiting").
+- Per day: a call that would have to wait more than two minutes is skipped and the log says "daily limit reached". The run still finishes, with fewer clips judged or ranked. Paste another key in the sidebar, or wait for the allowance to recover.
+
+On Groq's paid Developer plan the same models allow 1,000 requests and 250,000 tokens a minute, so a full show takes a few minutes.
+
+### Other providers
+
+- Gemini (free key from aistudio.google.com/apikey): set the `JUDGE_*` block shown in `.env.example`. Google does not publish fixed free-tier numbers for gemini-3.8-flash; your project's limits are under Usage and limits in AI Studio. The daily request quota resets at midnight Pacific time; when it runs out, the client stops calling Gemini for the rest of the run. Set `JUDGE_RPM=5` because Gemini sends no rate-limit headers to pace by.
+- OpenAI, OpenRouter: limits depend on the account; the client paces by the headers they send.
+- Ollama on your own machine: no limits.
+
+`tools/check_llm.py` prints the limits a key actually has, from the provider's own headers.
+
 ## How it works
 
 | Step | Who | What |

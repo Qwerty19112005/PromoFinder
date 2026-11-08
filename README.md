@@ -1,5 +1,7 @@
 # Promo finder for microdrama scripts
 
+Live app: https://promofinder-adhithyan.streamlit.app/ (Quick demo: episodes 1-10 in a few minutes; a full show takes about 20 minutes on the free tier)
+
 Reads a show's episode scripts and returns ranked 20 to 60 second promos: the episode and start and end time of every segment, the hook (first 3 seconds), the cliffhanger (the cut), one line on why it works, why it is ranked where it is, and automatic flags for where it may be picking badly.
 
 Code does everything that must be exact (parsing, timestamps, length and cut rules, de-duplication). Models do what needs judgement (which moments grab, which leave a question open, whether a clip makes sense to a stranger, which of two promos to post first). The model never writes a timestamp: it refers to numbered moments and code turns numbers into times.
